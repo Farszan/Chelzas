@@ -9,8 +9,8 @@ ASCII="ascii.txt"
 TEMP="temp.txt"
 ERR="stderr.txt"
 
-URL1="https://www.unicode.org/Public/17.0.0/ucd/UnicodeData.txt"
-URL2="https://unicode.org/ivd/data/2025-07-14/IVD_Sequences.txt"
+URL1="https://raw.githubusercontent.com/Farszanov/Chezas-UCS/master/UnicodeData.txt"
+URL2="https://raw.githubusercontent.com/Farszanov/Chezas-UCS/master/IVD_Sequences.txt"
 
 DATA1="UnicodeData.txt"
 DATA2="IVD_Sequences.txt"
@@ -77,9 +77,15 @@ perl makefont.pl 2
 echo "11:フォント生成 #3"
 perl makefont.pl 3
 
-echo "12:グリフリストの生成"
+echo "12:フォント生成 #4"
+perl makefont.pl f
+
+echo "13:フォント生成 #5"
+perl makefont.pl a
+
+echo "14:グリフリストの生成"
 perl glyphlist.pl > $BUILD/glyphlist.html
 
-echo "13:ドキュメントと生成フォントの配置"
+echo "15:ドキュメントと生成フォントの配置"
 cp $DOC/* $BUILD/
 cp $DIR/font/*.ttf $BUILD/
