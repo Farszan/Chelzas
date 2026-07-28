@@ -2,8 +2,8 @@
 
 use utf8;
 
-my $version = "2026-04-21";
-my $author = "Farszanov";
+my $version = "2026-07-28";
+my $author = "Farszan";
 
 my $fontname;
 if($ARGV[0] eq "2"){
@@ -32,18 +32,18 @@ if(-e "$FONT_DIR/$fontname.ttf"){
   exit;
 }
 
-$hankaku_data = `wget -nv https://raw.githubusercontent.com/Farszanov/Chelzas-GlyphWiki/main/Group/HalfwidthGlyphs-BMP.txt -O- 2>> $WORK_DIR/stderr.txt`;
+$hankaku_data = `wget -nv https://raw.githubusercontent.com/Farszan/Chelzas-GlyphWiki/main/Group/HalfwidthGlyphs-BMP.txt -O- 2>> $WORK_DIR/stderr.txt`;
 utf8::decode($hankaku_data);
-$temp = `wget -nv https://raw.githubusercontent.com/Farszanov/Chelzas-GlyphWiki/main/Group/HalfwidthGlyphs-SMP.txt -O- 2>> $WORK_DIR/stderr.txt`;
+$temp = `wget -nv https://raw.githubusercontent.com/Farszan/Chelzas-GlyphWiki/main/Group/HalfwidthGlyphs-SMP.txt -O- 2>> $WORK_DIR/stderr.txt`;
 utf8::decode($temp);
 $hankaku_data = $hankaku_data."\n".$temp;
-$temp = `wget -nv https://raw.githubusercontent.com/Farszanov/Chelzas-GlyphWiki/main/Group/farszanov_Halfwidth-Nech.txt -O- 2>> $WORK_DIR/stderr.txt`;
+$temp = `wget -nv https://raw.githubusercontent.com/Farszan/Chelzas-GlyphWiki/main/Group/farszanov_Halfwidth-Nech.txt -O- 2>> $WORK_DIR/stderr.txt`;
 utf8::decode($temp);
 $hankaku_data = $hankaku_data."\n".$temp;
 
-$nsgh = `wget -nv https://raw.githubusercontent.com/Farszanov/Chelzas-GlyphWiki/main/Group/NonSpacingGlyphs-Halfwidth.txt -O- 2>> $WORK_DIR/stderr.txt`;
+$nsgh = `wget -nv https://raw.githubusercontent.com/Farszan/Chelzas-GlyphWiki/main/Group/NonSpacingGlyphs-Halfwidth.txt -O- 2>> $WORK_DIR/stderr.txt`;
 utf8::decode($nsgh);
-$nsgf = `wget -nv https://raw.githubusercontent.com/Farszanov/Chelzas-GlyphWiki/main/Group/NonSpacingGlyphs-Fullwidth.txt -O- 2>> $WORK_DIR/stderr.txt`;
+$nsgf = `wget -nv https://raw.githubusercontent.com/Farszan/Chelzas-GlyphWiki/main/Group/NonSpacingGlyphs-Fullwidth.txt -O- 2>> $WORK_DIR/stderr.txt`;
 utf8::decode($nsgf);
 
 my $baseline = 30;

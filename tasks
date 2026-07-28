@@ -9,8 +9,8 @@ ASCII="ascii.txt"
 TEMP="temp.txt"
 ERR="stderr.txt"
 
-URL1="https://raw.githubusercontent.com/Farszanov/Chezas-UCS/master/UnicodeData.txt"
-URL2="https://raw.githubusercontent.com/Farszanov/Chezas-UCS/master/IVD_Sequences.txt"
+URL1="https://raw.githubusercontent.com/Farszan/Chelzas-UCS/master/UnicodeData.txt"
+URL2="https://raw.githubusercontent.com/Farszan/Chelzas-UCS/master/IVD_Sequences.txt"
 
 DATA1="UnicodeData.txt"
 DATA2="IVD_Sequences.txt"

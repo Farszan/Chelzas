@@ -23,7 +23,7 @@ sudo pip3 install requests
 　ツール一式をGitHubから取得します。
 
 ```
-git clone https://github.com/farszanov/Chelzas
+git clone https://github.com/farszan/Chelzas
 ```
 
 　実行します。
