@@ -26,7 +26,7 @@ List of included characters
                               472 chars (fully implemented)
 - U+2F800 .. U+2FA1D CJK Compatibility Ideographs Supplement
                               542 chars (fully implemented)
-- IVD*    .. ver. 2025-07-14 29,635 chars (fully implemented)
+- IVD     .. ver. 2026-08-03 29,642 chars (fully implemented)
 - U+A0000 .. U+A0020 CJK Compatibility Ideographs Qaz
                                33 chars (fully implemented)
 - U+F0000 .. U+F0163 CJK Unified Ideographs Qaz

@@ -2,7 +2,7 @@
 
 use utf8;
 
-my $version = "2026-08-04";
+my $version = "2026-10-29";
 my $author = "Farszan";
 
 my $fontname;
@@ -59,7 +59,7 @@ while(<$fh>){
     if($_ =~ m/^(u2[0-9a-f]{4})\n$/){
       $glyphlist{$1} = $1;
     }
-    if($_ =~ m/^(u2[0-9a-f]{4}-uf8[0-9a-f]{2})\n$/){
+    if($_ =~ m/^(u2[0-9a-f]{4}-ufe0[0-9a-f]{1})\n$/){
       $ivslist{$1} = $1;
     }
     if($_ =~ m/^(u2[0-9a-f]{4}-ue01[0-9a-f]{2})\n$/){
@@ -72,7 +72,7 @@ while(<$fh>){
     if($_ =~ m/^(u3[0-9a-f]{4})\n$/){
       $glyphlist{$1} = $1;
     }
-    if($_ =~ m/^(u3[0-9a-f]{4}-uf8[0-9a-f]{2})\n$/){
+    if($_ =~ m/^(u3[0-9a-f]{4}-ufe0[0-9a-f]{1})\n$/){
       $ivslist{$1} = $1;
     }
     if($_ =~ m/^(u3[0-9a-f]{4}-ue01[0-9a-f]{2})\n$/){
@@ -85,7 +85,7 @@ while(<$fh>){
     if($_ =~ m/^(ua[0-9a-f]{4})\n$/){
       $glyphlist{$1} = $1;
     }
-    if($_ =~ m/^(ua[0-9a-f]{4}-uf8[0-9a-f]{2})\n$/){
+    if($_ =~ m/^(ua[0-9a-f]{4}-ufe0[0-9a-f]{1})\n$/){
       $ivslist{$1} = $1;
     }
     if($_ =~ m/^(ua[0-9a-f]{4}-ue01[0-9a-f]{2})\n$/){
@@ -98,7 +98,7 @@ while(<$fh>){
     if($_ =~ m/^(uf[0-9a-f]{4})\n$/){
       $glyphlist{$1} = $1;
     }
-    if($_ =~ m/^(uf[0-9a-f]{4}-uf8[0-9a-f]{2})\n$/){
+    if($_ =~ m/^(uf[0-9a-f]{4}-ufe0[0-9a-f]{1})\n$/){
       $ivslist{$1} = $1;
     }
     if($_ =~ m/^(uf[0-9a-f]{4}-ue01[0-9a-f]{2})\n$/){
@@ -111,10 +111,13 @@ while(<$fh>){
     if($_ =~ m/^(u1[0-9a-f]{4})\n$/){
       $glyphlist{$1} = $1;
     }
-    if($_ =~ m/^(u[0-9a-f]{4}-uf8[0-9a-f]{2})\n$/){
+    if($_ =~ m/^(u[0-9a-f]{4}-ufe0[0-9a-f]{1})\n$/){
       $ivslist{$1} = $1;
     }
     if($_ =~ m/^(u[0-9a-f]{4}-ue01[0-9a-f]{2})\n$/){
+      $ivslist{$1} = $1;
+    }
+    if($_ =~ m/^(u1[0-9a-f]{4}-ufe0[0-9a-f]{1})\n$/){
       $ivslist{$1} = $1;
     }
   }
@@ -185,7 +188,7 @@ if(scalar(keys(%ivslist)) > 0){
   open my $fh2, ">$FONT_DIR/$fontname.ivs";
   print $fh2 "<cmap_format_14 platformID=\"0\" platEncID=\"5\" format=\"14\" length=\"0\" numVarSelectorRecords=\"0\">\n";
 
-  # 1. 基底文字ごとに IVS リストをグループ化
+  # 1. 基底文字ごとに SVS/IVS リストをグループ化
   my %base_to_ivs = ();
   foreach my $ucswithivs (keys %ivslist) {
     my @temp = split(/-/, $ucswithivs);
@@ -205,7 +208,7 @@ if(scalar(keys(%ivslist)) > 0){
     my $base_dir = "$GLYPH_DIR/".substr($ucswithoutivs,0,length($ucswithoutivs)-3)."/".substr($ucswithoutivs,0,length($ucswithoutivs)-2);
     my $base_svg = "$base_dir/$ucswithoutivs.svg";
 
-    # IVS を昇順ソートして順番に評価
+    # SVS/IVS を昇順ソートして順番に評価
     foreach my $ucswithivs (sort @{$base_to_ivs{$ucswithoutivs}}) {
       my @temp = split(/-/, $ucswithivs);
       my $uv = "0x".substr($temp[0], 1);
@@ -221,7 +224,7 @@ if(scalar(keys(%ivslist)) > 0){
         next;
       }
 
-      # B. 同一基底文字の先行 IVS と比較（一致していればその GID/cpname を再利用）
+      # B. 同一基底文字の先行 SVS/IVS と比較（一致していればその GID/cpname を再利用）
       my $matched_cpname = undef;
       foreach my $prev_svg (keys %seen_svgs) {
         if (!`diff $target_svg $prev_svg`) {
