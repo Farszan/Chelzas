@@ -2,7 +2,7 @@
 
 use utf8;
 
-my $version = "2026-10-29";
+my $version = "2026-11-17";
 my $author = "Farszan";
 
 my $fontname;

@@ -7,15 +7,15 @@ GlyphWiki[5].
 
 List of included characters
 
-*** Non-kanji: 13,686 characters ***
+*** Non-kanji: 13,749 characters ***
 
-*** Kanji: 103,387 characters + 29,635 IVD characters ***
+*** Kanji: 103,429 characters + 29,642 IVD characters ***
 
 - U+4E00  .. U+9FFF  URO   20,992 chars (fully implemented)
 - U+3400  .. U+4DBF  Ext-A  6,592 chars (fully implemented)
 - U+20000 .. U+2A6DF Ext.B 42,720 chars (fully implemented)
 - U+2A700 .. U+2B73F Ext.C  4,160 chars (fully implemented)
-- U+2B740 .. U+2B81D Ext.D    222 chars (fully implemented)
+- U+2B740 .. U+2B81E Ext.D    223 chars (fully implemented)
 - U+2B820 .. U+2CEAD Ext.E  5,774 chars (fully implemented)
 - U+2CEB0 .. U+2EBE0 Ext.F  7,473 chars (fully implemented)
 - U+30000 .. U+3134A Ext.G  4,939 chars (fully implemented)
@@ -29,8 +29,8 @@ List of included characters
 - IVD     .. ver. 2026-08-03 29,642 chars (fully implemented)
 - U+A0000 .. U+A0020 CJK Compatibility Ideographs Qaz
                                33 chars (fully implemented)
-- U+F0000 .. U+F0163 CJK Unified Ideographs Qaz
-                              356 chars (fully implemented)
+- U+F0000 .. U+F018C CJK Unified Ideographs Qaz
+                              397 chars (fully implemented)
 
 IVD: Ideographic Variation Database[6]
 
@@ -93,13 +93,13 @@ KAGEシステム、Clipper, FontForgeおよびTTXを利用しています。
 
 含まれる文字種
 
-*** 漢字 103,387字 + IVD 29,635字 ***
+*** 漢字 103,429字 + IVD 29,642字 ***
 
 - U+4E00  .. U+9FFF  URO   20,992字 完全収録
 - U+3400  .. U+4DBF  Ext-A  6,592字 完全収録
 - U+20000 .. U+2A6DF Ext.B 42,720字 完全収録
 - U+2A700 .. U+2B73F Ext.C  4,160字 完全収録
-- U+2B740 .. U+2B81D Ext.D    222字 完全収録
+- U+2B740 .. U+2B81E Ext.D    223字 完全収録
 - U+2B820 .. U+2CEAD Ext.E  5,774字 完全収録
 - U+2CEB0 .. U+2EBE0 Ext.F  7,473字 完全収録
 - U+30000 .. U+3134A Ext.G  4,939字 完全収録
@@ -108,13 +108,13 @@ KAGEシステム、Clipper, FontForgeおよびTTXを利用しています。
 - U+323B0 .. U+33479 Ext.J  4,298字 完全収録
 - U+F900  .. U+FAD9  互換文字 472字 完全収録
 - U+2F800 .. U+2FA1D 互換補助 542字 完全収録
-- IVD※   .. 2025-07-14版  29,635字 完全収録
+- IVD※   .. 2026-08-03版  29,642字 完全収録
 - U+A0000 .. U+A0020 互換Qaz   33字 完全収録
-- U+F0000 .. U+F0163 Qaz      356字 完全収録
+- U+F0000 .. U+F018C Qaz      397字 完全収録
 
 ※IVD : Ideographic Variation Database
 
-*** 非漢字 13,686字 ***
+*** 非漢字 13,749字 ***
 
 - ASCIIおよびCJKに関係するもの
 
@@ -166,7 +166,7 @@ KAGEシステム、Clipper, FontForgeおよびTTXを利用しています。
 
 変更履歴
 
-2025-08-21
+2026-11-17
 
 ※すべてのグリフに対するすべての変更履歴はグリフウィキで確認すること
 ができます。
