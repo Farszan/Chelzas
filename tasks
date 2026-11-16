@@ -43,7 +43,7 @@ fi
 echo "02:拡張グループファイルの取得と結合"
 rm -f $DIR/$DATA3
 if [ -f "$EXTENDED_GROUP" ]; then
-  grep -v '^\s*#' "$EXTENDED_GROUP" \vert{} sed '/^\s*$/d' | while read -r url; do
+  grep -v '^\s*#' "$EXTENDED_GROUP" | sed '/^\s*$/d' | while read -r url; do
     if [ -n "$url" ]; then
       echo "  Downloading: $url"
       wget -qO- "$url" >> $DIR/$DATA3 2>> $DIR/$ERR
@@ -90,7 +90,7 @@ if [ -f "$DIR/$DATA3" ]; then
   awk -F';' '{print $1}' "$DIR/$DATA3" | grep -v '^\s*#' | sed 's/\r//g' | sed '/^\s*$/d' > $DIR/ext_temp.txt
   
   # 既に $OUT5 に存在するコードポイント（キーワード選定分）を除外して追記
-  grep -v -F -x -f $DIR/$OUT5$DIR/ext_temp.txt >> $DIR/$OUT5
+  grep -v -F -x -f $DIR/$OUT5 $DIR/ext_temp.txt >> $DIR/$OUT5
   
   rm -f $DIR/ext_temp.txt
 fi
@@ -102,11 +102,55 @@ echo "10:グリフSVGファイルの取得"
 python3 getglyphs.py $GLYPH $DIR/$OUT5 $DIR/$DATA3
 
 echo "11:グリフSVGファイルの確認"
-files=`find $GLYPH -name *.svg | wc -l`
-lines=`cat $DIR/$OUT5 | wc -l`
-if [ $files -ne$lines ]; then
-    echo "グリフSVGファイル数とコードポイント数が一致しません。終了します。"
-    exit
+rm -f $DIR/missing_glyphs.txt $DIR/excess_glyphs.txt
+touch $DIR/expected_cp.txt
+
+while IFS= read -r cp || [ -n "$cp" ]; do
+    cp=$(echo "$cp" | tr -d '\r')
+    if [ -n "$cp" ]; then
+        echo "$cp" >> $DIR/expected_cp.txt
+    fi
+done < "$DIR/$OUT5"
+
+matched=0
+missing=0
+excess=0
+
+# 不足・一致の判定
+while IFS= read -r cp || [ -n "$cp" ]; do
+    base_cp="${cp%%-*}"
+    sub1="${base_cp%???}"
+    sub2="${base_cp%??}"
+    svg_path="$GLYPH/${sub1}/${sub2}/${cp}.svg"
+
+    if [ -f "$svg_path" ]; then
+        matched=$((matched + 1))
+    else
+        echo "$cp" >> $DIR/missing_glyphs.txt
+        missing=$((missing + 1))
+    fi
+done < $DIR/expected_cp.txt
+
+# 過剰の判定（サブディレクトリ内を再帰的に走査）
+while IFS= read -r f; do
+    if [ -f "$f" ]; then
+        filename=$(basename "$f" .svg)
+        if ! grep -Fxq "$filename" $DIR/expected_cp.txt; then
+            echo "$filename" >> $DIR/excess_glyphs.txt
+            excess=$((excess + 1))
+        fi
+    fi
+done < <(find "$GLYPH" -name "*.svg")
+
+rm -f $DIR/expected_cp.txt
+
+echo "  一致ファイル数: $matched"
+echo "  不足ファイル数: $missing"
+echo "  過剰ファイル数: $excess"
+
+if [ $missing -ne 0 ]; then
+    echo "必要なグリフSVGファイルが不足しています。終了します。"
+    exit 1
 fi
 
 echo "12:フォント生成 #1"
@@ -128,5 +172,5 @@ echo "17:グリフリストの生成"
 perl glyphlist.pl > $BUILD/glyphlist.html
 
 echo "18:ドキュメントと生成フォントの配置"
-cp $DOC/*$BUILD/
+cp $DOC/* $BUILD/
 cp $FONT/*.ttf $BUILD/

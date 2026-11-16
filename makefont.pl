@@ -48,6 +48,27 @@ utf8::decode($nsgf);
 
 my $baseline = 30;
 
+sub get_glyph_dir {
+  my ($cp_str) = @_;
+  my @parts = split(/-/, $cp_str);
+  my $base_cp = $parts[0];
+  my $len = length($base_cp);
+  
+  my $sub1;
+  my $sub2;
+  if ($len >= 7) {
+    $sub1 = substr($base_cp, 0, $len - 3);
+    $sub2 = substr($base_cp, 0, $len - 2);
+  } elsif ($len == 6) {
+    $sub1 = substr($base_cp, 0, 3);
+    $sub2 = substr($base_cp, 0, 4);
+  } else {
+    $sub1 = substr($base_cp, 0, 2);
+    $sub2 = substr($base_cp, 0, 3);
+  }
+  return "$GLYPH_DIR/$sub1/$sub2";
+}
+
 my %glyphlist = ();
 my %ivslist = ();
 open my $fh, "<:utf8", "$WORK_DIR/codepoint.txt";
@@ -156,7 +177,8 @@ print $fh qq|SetFontHasVerticalMetrics(1)\n|;
 
 foreach(sort(keys(%glyphlist))){
   my $name = $glyphlist{$_};
-  my $dir = "$GLYPH_DIR/".substr($name,0,length($name)-3)."/".substr($name,0,length($name)-2);
+  my $dir = get_glyph_dir($name);
+  
   print $fh qq|Print(0$_)\n|;
   print $fh qq|Select(0$_)\n|;
   print $fh qq|Import("$dir/$glyphlist{$_}.svg")\n|;
@@ -205,7 +227,7 @@ if(scalar(keys(%ivslist)) > 0){
     my $base_cpname = (length($ucswithoutivs) > 5) ? "u".uc(substr($ucswithoutivs, 1)) : "uni".uc(substr($ucswithoutivs, 1));
     
     # 基底文字の SVG パス
-    my $base_dir = "$GLYPH_DIR/".substr($ucswithoutivs,0,length($ucswithoutivs)-3)."/".substr($ucswithoutivs,0,length($ucswithoutivs)-2);
+    my $base_dir = get_glyph_dir($ucswithoutivs);
     my $base_svg = "$base_dir/$ucswithoutivs.svg";
 
     # SVS/IVS を昇順ソートして順番に評価
@@ -215,7 +237,7 @@ if(scalar(keys(%ivslist)) > 0){
       my $uvs = "0x".substr($temp[1], 1);
       
       my $name = $ivslist{$ucswithivs};
-      my $dir = "$GLYPH_DIR/".substr($name,0,length($name)-10)."/".substr($name,0,length($name)-9);
+      my $dir = get_glyph_dir($ucswithivs);
       my $target_svg = "$dir/$ucswithivs.svg";
 
       # A. 基底文字と比較（一致していれば基底文字の cpname を利用）
